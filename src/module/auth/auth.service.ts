@@ -10,7 +10,7 @@ export class AuthService {
   async validate({
     username,
     password,
-  }: CreateUser): Promise<{ token: string }> {
+  }: Omit<CreateUser, 'confirmPassword'>): Promise<{ token: string }> {
     return this.validateUser(username, password).then(async (user) => {
       const payload = { username: user.username, id: user.id };
       return {

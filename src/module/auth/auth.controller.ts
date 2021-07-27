@@ -6,7 +6,9 @@ import { CreateUser } from 'src/module/user/input/create-user';
 export class AuthController {
   constructor(private authService: AuthService) {}
   @Post('login')
-  async login(@Body() body: CreateUser): Promise<{ token: string }> {
+  async login(
+    @Body() body: Omit<CreateUser, 'confirmPassword'>,
+  ): Promise<{ token: string }> {
     return this.authService.validate(body);
   }
 }
