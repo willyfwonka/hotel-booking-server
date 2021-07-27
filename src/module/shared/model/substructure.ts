@@ -62,6 +62,7 @@ export class Substructure extends BaseEntity {
   ): Promise<T>;
 
   static findOneOrFail(...args) {
+    // Casting BigInt to string
     if (args[0].id) {
       args[0].id = String(BigInt(args[0].id));
     }
