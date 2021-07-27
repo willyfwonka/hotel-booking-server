@@ -20,7 +20,7 @@ export class UserController {
   }
 
   @Delete(':id')
-  async deleteUser(@Id() id: bigint) {
+  async deleteUser(@Id() id: bigint): Promise<User> {
     const user = await User.findOneOrFail({ id });
     return user.softRemove();
   }
