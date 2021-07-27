@@ -4,7 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { QueueOptions } from 'bull';
 import { QueueType } from 'src/module/misc/app-queue/type/queue-type.enum';
 import { RegisterConsumer } from 'src/module/misc/app-queue/consumer/register.consumer';
-import { RegisterService } from 'src/module/misc/app-queue/service/register/register.service';
+import { RegisterProducerService } from 'src/module/misc/app-queue/service/register-producer.service';
 
 @Module({
   imports: [
@@ -30,8 +30,12 @@ import { RegisterService } from 'src/module/misc/app-queue/service/register/regi
     BullModule.registerQueue({
       name: QueueType.REGISTER,
     }),
+
+    BullModule.registerQueue({
+      name: QueueType.RESERVATION,
+    }),
   ],
-  providers: [RegisterConsumer, RegisterService, RegisterConsumer],
-  exports: [BullModule, RegisterService],
+  providers: [RegisterConsumer, RegisterProducerService, RegisterConsumer],
+  exports: [BullModule, RegisterProducerService],
 })
 export class AppQueueModule {}

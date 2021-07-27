@@ -6,7 +6,7 @@ import { JobType } from 'src/module/misc/app-queue/type/job-type.num';
 import { CreateUser } from 'src/module/user/input/create-user';
 
 @Injectable()
-export class RegisterService {
+export class RegisterProducerService {
   constructor(@InjectQueue(QueueType.REGISTER) private queue: Queue) {}
 
   async addToRegisterQueue(data: CreateUser): Promise<{ success: boolean }> {
