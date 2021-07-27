@@ -18,6 +18,7 @@ import * as Joi from 'joi';
         DB_SYNCHRONIZE: Joi.bool().default(false),
         DB_LOGGING: Joi.bool().default(false),
         DB_DROP_SCHEMA: Joi.bool().default(false),
+        JWT_SECRET: Joi.string().required(),
       }),
     }),
   ],
