@@ -7,6 +7,7 @@ import { CreateUser } from 'src/module/user/input/create-user';
 @Injectable()
 export class AuthService {
   constructor(private jwtService: JwtService) {}
+
   async validate({
     username,
     password,
@@ -29,6 +30,16 @@ export class AuthService {
         }
       });
     });
+  }
+
+  async extractUserFromToken(token: string): Promise<User> {
+    if (token?.startsWith('Bearer')) {
+      return this.jwtService.verifyAsync(token.slice(7)).catch(() => {
+        return null;
+      });
+    }
+
+    return null;
   }
 
   async findByUsername(username: string): Promise<User> {
