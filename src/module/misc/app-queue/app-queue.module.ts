@@ -5,6 +5,8 @@ import { QueueOptions } from 'bull';
 import { QueueType } from 'src/module/misc/app-queue/type/queue-type.enum';
 import { RegisterConsumer } from 'src/module/misc/app-queue/consumer/register.consumer';
 import { RegisterProducerService } from 'src/module/misc/app-queue/service/register-producer.service';
+import { ReservationProducerService } from 'src/module/misc/app-queue/service/reservation-producer.service';
+import { ReservationConsumer } from 'src/module/misc/app-queue/consumer/reservation.consumer';
 
 @Module({
   imports: [
@@ -22,8 +24,8 @@ import { RegisterProducerService } from 'src/module/misc/app-queue/service/regis
         defaultJobOptions: {
           timeout: 30000,
           attempts: 2,
-          removeOnFail: true,
-          removeOnComplete: true,
+          removeOnFail: false,
+          removeOnComplete: false,
         },
       }),
     }),
@@ -35,7 +37,13 @@ import { RegisterProducerService } from 'src/module/misc/app-queue/service/regis
       name: QueueType.RESERVATION,
     }),
   ],
-  providers: [RegisterConsumer, RegisterProducerService, RegisterConsumer],
-  exports: [BullModule, RegisterProducerService],
+  providers: [
+    RegisterConsumer,
+    RegisterProducerService,
+    RegisterConsumer,
+    ReservationProducerService,
+    ReservationConsumer,
+  ],
+  exports: [BullModule, RegisterProducerService, ReservationProducerService],
 })
 export class AppQueueModule {}

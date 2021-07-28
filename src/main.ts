@@ -9,6 +9,11 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.use(helmet());
 
+  app.enableCors({
+    origin: 'http://localhost:4200',
+    credentials: true,
+  });
+
   const configService: ConfigService = app.get(ConfigService);
   await app.listen(
     configService.get('SERVER_PORT'),

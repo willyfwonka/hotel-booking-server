@@ -43,7 +43,7 @@ export class AuthService {
   }
 
   async findByUsername(username: string): Promise<User> {
-    const user = await User.findOneOrFail({ where: { username } });
+    const user = await User.findOne({ where: { username } });
     if (null == user) {
       throw new UnauthorizedException('Username or password is incorrect');
     }
