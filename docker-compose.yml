@@ -4,7 +4,7 @@ services:
   hotel-booking:
     container_name: 'hotel-booking-server'
     build:
-      context: test
+      context: .
       target: dev
     volumes:
       - .:/app
