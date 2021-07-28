@@ -3,6 +3,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ThrottlerStorageRedisService } from 'src/module/misc/app-throttle/service/throttler-storage-redis.service';
 
+// Adding throttling for protection against too many requests
 @Module({
   imports: [
     ThrottlerModule.forRootAsync({

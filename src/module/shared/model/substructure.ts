@@ -16,6 +16,7 @@ import { plainToClassFromExist } from 'class-transformer';
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { UniqueID } from 'nodejs-snowflake';
 
+// Defining Substructure for DRY reasons
 export class Substructure extends BaseEntity {
   @PrimaryColumn({ type: 'bigint' })
   id: bigint;
@@ -29,22 +30,12 @@ export class Substructure extends BaseEntity {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  save(options?: SaveOptions): Promise<this> {
-    return super.save(options).catch((error) => {
-      if ('23505' === error?.code) {
-        // 23505 is UniqueViolation handling for Postgres
-        throw new ConflictException();
-      }
-
-      return this;
-    });
-  }
-
   static findOneOrFail<T extends BaseEntity>(
     this: ObjectType<T>,
     id?: string | number | Date | ObjectID,
     options?: FindOneOptions<T>,
   ): Promise<T>;
+
   /**
    * Finds first entity that matches given options.
    */
@@ -52,6 +43,7 @@ export class Substructure extends BaseEntity {
     this: ObjectType<T>,
     options?: FindOneOptions<T>,
   ): Promise<T>;
+
   /**
    * Finds first entity that matches given conditions.
    */
@@ -92,6 +84,17 @@ export class Substructure extends BaseEntity {
     await plainToClassFromExist(entity, payload).save();
 
     return entity as unknown as T;
+  }
+
+  save(options?: SaveOptions): Promise<this> {
+    return super.save(options).catch((error) => {
+      if ('23505' === error?.code) {
+        // 23505 is UniqueViolation handling for Postgres
+        throw new ConflictException();
+      }
+
+      return this;
+    });
   }
 
   @BeforeInsert()

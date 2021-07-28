@@ -31,7 +31,7 @@ export class HotelController {
       take: pageSize,
       where: [{ name: ILike('%' + query + '%') }],
       // Getting reservations if user is authenticated
-      // Since only authenticated users may access hotel reservations
+      // Since only authenticated users (admins) may access hotel reservations
       relations: null != req.user ? ['reservations'] : [],
     });
     return {

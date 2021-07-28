@@ -19,12 +19,14 @@ export class User extends Substructure {
   reservations: Reservation[];
 
   toJSON() {
+    // Removing password from object on instantiation of this
     const { password, ...rest } = this;
     return rest;
   }
 
   @BeforeInsert()
   private async beforeWrite() {
+    // Hashing the password before inserting
     this.password = await hash(this.password, 12);
   }
 }

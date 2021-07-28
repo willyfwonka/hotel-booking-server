@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from 'src/module/auth/auth.service';
 
+// Intercepting request to extract user from authorization header if there is a valid tokeb
 @Injectable()
 export class GetUserInterceptor implements NestInterceptor {
   constructor(private readonly authService: AuthService) {}

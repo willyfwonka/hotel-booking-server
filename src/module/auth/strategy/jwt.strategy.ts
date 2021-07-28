@@ -13,7 +13,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       secretOrKey: configService.get('JWT_SECRET'),
     });
   }
-
+  // Binding logged in user to guard, which we can get the logged in user from
   validate(payload: User) {
     return payload;
   }

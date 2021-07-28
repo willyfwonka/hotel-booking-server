@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as Redis from 'ioredis';
 import { ThrottlerStorage } from '@nestjs/throttler';
 
+// Implementation for redis to storing the hashes of ip and rate limits
 @Injectable()
 export class ThrottlerStorageRedisService
   implements Omit<ThrottlerStorage, 'storage'>

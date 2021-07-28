@@ -8,6 +8,7 @@ import { RegisterProducerService } from 'src/module/misc/app-queue/service/regis
 import { ReservationProducerService } from 'src/module/misc/app-queue/service/reservation-producer.service';
 import { ReservationConsumer } from 'src/module/misc/app-queue/consumer/reservation.consumer';
 
+// Queueing insertions to avoid race conditions
 @Module({
   imports: [
     BullModule.forRootAsync({
@@ -29,6 +30,7 @@ import { ReservationConsumer } from 'src/module/misc/app-queue/consumer/reservat
         },
       }),
     }),
+    // Registering queues on redis
     BullModule.registerQueue({
       name: QueueType.REGISTER,
     }),
