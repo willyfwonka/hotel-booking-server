@@ -7,6 +7,6 @@ export class Hotel extends Substructure {
   @Column()
   name: string;
 
-  @OneToMany(() => Reservation, (r) => r.hotel)
+  @OneToMany(() => Reservation, (r) => r.hotel, { cascade: true })
   reservations: Reservation[];
 }

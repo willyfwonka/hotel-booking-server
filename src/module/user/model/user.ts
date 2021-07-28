@@ -12,7 +12,10 @@ export class User extends Substructure {
   @Column()
   password: string;
 
-  @OneToMany(() => Reservation, (r) => r.changedBy, { nullable: true })
+  @OneToMany(() => Reservation, (r) => r.changedBy, {
+    nullable: true,
+    cascade: true,
+  })
   reservations: Reservation[];
 
   toJSON() {
