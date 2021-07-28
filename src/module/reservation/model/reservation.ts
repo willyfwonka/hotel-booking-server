@@ -4,11 +4,7 @@ import { randomBytes } from 'crypto';
 import { Hotel } from 'src/module/hotel/model/hotel';
 import { User } from 'src/module/user/model/user';
 
-@Entity({
-  orderBy: {
-    createdAt: 'DESC',
-  },
-})
+@Entity()
 @Index(['phoneNumber', 'email'], { unique: true })
 export class Reservation extends Substructure {
   @Column({ length: 16 })
