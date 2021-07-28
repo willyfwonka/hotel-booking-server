@@ -4,7 +4,11 @@ import { randomBytes } from 'crypto';
 import { Hotel } from 'src/module/hotel/model/hotel';
 import { User } from 'src/module/user/model/user';
 
-@Entity()
+@Entity({
+  orderBy: {
+    createdAt: 'DESC',
+  },
+})
 @Index(['phoneNumber', 'email'], { unique: true })
 export class Reservation extends Substructure {
   @Column({ length: 16 })
@@ -37,7 +41,7 @@ export class Reservation extends Substructure {
   @ManyToOne(() => Hotel, (h) => h.reservations)
   hotel: Hotel;
 
-  @ManyToOne(() => User, (u) => u.reservations, { nullable: true })
+  @ManyToOne(() => User, (u) => u.reservations, { nullable: true, eager: true })
   changedBy: User;
 
   // Generating a random string for reservation code
