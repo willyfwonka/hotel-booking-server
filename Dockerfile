@@ -1,19 +1,21 @@
 # DEVELOPMENT
 FROM node:14.16.1-alpine as dev
-
+# Installing python for node-gyp
+RUN apk add g++ make python
 WORKDIR /app
 
 COPY package*.json ./
 
 RUN npm i
 
-COPY test .
+COPY . .
 
 RUN rm -rf dist
 RUN npm run build
 
 # PRODUCTION
 FROM node:14.16.1-alpine as prod
+RUN apk add g++ make python
 
 ARG NODE_ENV=prod
 ENV NODE_ENV=${NODE_ENV}
