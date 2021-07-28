@@ -1,21 +1,16 @@
-## Installation
-
-```bash
-$ npm install
-```
-
 ## Running the app
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+$ docker-compose up
 ```
+
+## Running the app with debugger
+
+```bash
+1- $ docker-compose up -d redis postgres
+2- $ npm run start:dev
+```
+
 
 ## Test
 
