@@ -1,41 +1,35 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Patch,
-  Post,
-  Query,
-  Req,
-  UseInterceptors,
-} from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, Query, Req } from '@nestjs/common';
 import { Reservation } from 'src/module/reservation/model/reservation';
 import { ListReservationInput } from 'src/module/reservation/input/list-reservation-input';
-import { GetUserInterceptor } from 'src/module/interceptor/get-user-interceptor';
 import { UpdateReservation } from 'src/module/reservation/input/update-reservation';
 import { Id } from 'src/module/shared/decorator/param/id';
 import { Authorize } from 'src/module/auth/decorator/authorize';
 import { CreateReservation } from 'src/module/reservation/input/create-reservation';
 import { ReservationProducerService } from 'src/module/misc/app-queue/service/reservation-producer.service';
+import { ListReservation } from 'src/module/reservation/model/list-reservation';
 
 @Controller('reservation')
 export class ReservationController {
   constructor(private reservationService: ReservationProducerService) {}
 
-  @UseInterceptors(GetUserInterceptor)
+  // Only authenticated users can get reservation list
+  @Authorize()
   @Get('list')
   async getReservationList(
     @Req() req,
     @Query()
     { field, pageIndex, pageSize, direction }: ListReservationInput,
-  ): Promise<[Reservation[], number]> {
-    return Reservation.findAndCount({
+  ): Promise<ListReservation> {
+    const [items, total] = await Reservation.findAndCount({
       order: { [field ?? 'approved']: direction ?? 'DESC' },
       skip: pageIndex * pageSize,
       take: pageSize,
-      // Getting user approved and hotel if user is authenticated
-      // Since only authenticated users may access approved user and hotel of reservation
-      relations: null != req.user ? ['hotel', 'changedBy'] : [],
+      relations: ['hotel', 'changedBy'],
     });
+    return {
+      items,
+      total,
+    };
   }
 
   @Post()

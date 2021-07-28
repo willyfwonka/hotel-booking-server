@@ -15,6 +15,7 @@ import { ILike } from 'typeorm';
 import { ListHotelInput } from 'src/module/hotel/input/list-hotel-input';
 import { GetUserInterceptor } from 'src/module/interceptor/get-user-interceptor';
 import { ListHotel } from 'src/module/hotel/model/list-hotel';
+import { Authorize } from 'src/module/auth/decorator/authorize';
 
 @Controller('hotel')
 export class HotelController {
@@ -37,6 +38,12 @@ export class HotelController {
       items,
       total,
     };
+  }
+
+  @Authorize()
+  @Get(':id')
+  async getHotel(@Id() id: bigint): Promise<Hotel> {
+    return Hotel.findOneOrFail({ id }, { relations: ['reservations'] });
   }
 
   @Patch('id')
