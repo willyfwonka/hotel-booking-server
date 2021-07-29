@@ -18,10 +18,6 @@ import { ReservationConsumer } from 'src/module/misc/app-queue/consumer/reservat
         configService: ConfigService,
       ): Promise<QueueOptions> => ({
         redis: {
-          // Reconnecting to redis on error
-          reconnectOnError() {
-            return 2;
-          },
           host: configService.get('STORE_HOST'),
           port: configService.get('STORE_PORT'),
           db: configService.get('STORE_QUEUE_DB'),
