@@ -46,6 +46,7 @@ export class HotelController {
     return Hotel.findOneOrFail({ id }, { relations: ['reservations'] });
   }
 
+  @Authorize()
   @Patch('id')
   async updateHotel(
     @Body() body: UpdateHotel,
@@ -54,6 +55,7 @@ export class HotelController {
     return Hotel.findOneAndUpdate({ id, ...body });
   }
 
+  @Authorize()
   @Delete(':id')
   async deleteHotel(@Id() id: bigint): Promise<Hotel> {
     const hotel = await Hotel.findOneOrFail({ id });
